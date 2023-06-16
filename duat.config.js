@@ -401,8 +401,6 @@ let config = {
   stream,
   mode,
   featuresModel,
-  snapcs,
-  snapss,
 };
 
 module.exports = config;
