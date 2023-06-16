@@ -180,21 +180,6 @@ function dao(num) {
             stats.dex_fee = parseFloat((dexfeea / dexfeed)/100).toFixed(5);
             stats.dex_max = parseFloat((dexmaxa / dexmaxd)*100).toFixed(2);
             stats.dex_slope = parseFloat((dexslopea / dexsloped)*100).toFixed(2);
-            var newOwners = {}
-            if(j){
-                for (var node in mnode) { //and pay them
-                    i = parseInt(mnode[node].wins / j * b);
-                    cbals[node] ? cbals[node] += i : cbals[node] = i;
-                    bals.rn -= i;
-                    const _at = _atfun(node);
-                    if (i) {
-                        post = post + `* ${_at}${node} awarded ${parseFloat(i / 1000).toFixed(3)} ${config.TOKEN} for ${mnode[node].wins} credited transaction(s)\n`;
-                        console.log(num + `:@${node} awarded ${parseFloat(i / 1000).toFixed(3)} ${config.TOKEN} for ${mnode[node].wins} credited transaction(s)`);
-                    }
-                    newOwners[node] = {wins:mnode[node].wins}
-                    mnode[node].wins = 0;
-                }
-            }
             for(var node in newOwners){
                 newOwners[node].g = runners[node]?.g ? runners[node].g : 0;
             }
@@ -388,9 +373,9 @@ function dao(num) {
                     }
                     for (var acc in dex.liq){
                         thisd = parseInt(liqt*(dex.liq[acc]/liqa))
-                        if(!bal[acc])bal[acc] = 0
-                        bal[acc] += thisd
-                        bal.rm -= thisd
+                        if(!bals[acc])bals[acc] = 0
+                        bals[acc] += thisd
+                        bals.rm -= thisd
                     }
                 }
                 delete dex.liq
@@ -482,7 +467,14 @@ function dao(num) {
                     })
                 }
             ];
-            if(up_op)daops.push({ type: 'put', path: ['mso', `${num}:ac`], data: stringify(['account_update', up_op]) });
+            if (up_op) {
+              daops.push({ type: "del", path: ["mso"] });
+              daops.push({
+                type: "put",
+                path: ["mso", `${num}:ac`],
+                data: stringify(["account_update", up_op]),
+              });
+            }
             daops.push({ type: 'put', path: ['dex'], data: dex });
             daops.push({ type: 'put', path: ['stats'], data: stats });
             daops.push({ type: 'put', path: ['balances'], data: bals });
@@ -587,7 +579,7 @@ exports.Liquidity = Liquidity;
 
 function accountUpdate(stats, nodes, arr){
     //get runners by gov balance
-    //find highest three that also have a public key
+    //ensure have public key
     for (var i = 0; i < arr.length; i++) {
         if(!nodes[arr[i]].mskey){
         arr.splice(i, 1)
@@ -595,19 +587,11 @@ function accountUpdate(stats, nodes, arr){
         }
     }
     var differrent = false
-    var same = true
-    var current = 0
-    Object.keys(stats.ms.active_account_auths).forEach(function(key) {
-        if(arr.indexOf(key) == -1) {
-            same = false
-            current++
-        }
-    })
     for (var i = 0; i < arr.length; i++) {
         if(stats.ms.active_account_auths[arr[i]] != 1)differrent = true
     }
-    if((same && current >= 3) || !differrent || arr.length < 2)return
-    if(arr.length > 3)arr = [arr[0], arr[1], arr[2]]
+    if(!differrent || arr.length < 3)return //don't send duplicate updates, don't reduce key holders below 3
+    if(arr.length > 40)arr = arr.slice(0,40)
     var updateOp = {
     "account": config.msaccount,
     "active": {

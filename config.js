@@ -15,10 +15,16 @@ const port = ENV.PORT || 3001;
 const pintoken = ENV.pintoken || ''
 const pinurl = ENV.pinurl || '';
 const status = ENV.status || true
-const dbcs = ENV.DATABASE_URL || '';
+const dbcs = ENV.DATABASE_URL || ''; //connection string to a postgres database
+const dbmods = ENV.DATABASE_MODS || []; //list of moderators to hide posts in above db
+const typeDefs = ENV.APPTYPES || {
+  ["360"]: ['QmNby3SMAAa9hBVHvdkKvvTqs7ssK4nYa2jBdZkxqmRc16'],
+}
 const history = ENV.history || 3600
 const stream = ENV.stream || 'irreversible'
-const mode = ENV.mode || 'normal'
+const mode = ENV.mode || "normal";
+const timeoutStart = ENV.timeoutStart || 180000;
+const timeoutContinuous = ENV.timeoutContinuous || 30000;
 
 // testing configs for replays
 const override = ENV.override || 0 //69116600 //will use standard restarts after this blocknumber
@@ -30,21 +36,34 @@ const rtp = ENV.rtp || '' //rtrades password : IPFS pinning interface
 
 const ipfshost = ENV.ipfshost || 'ipfs.infura.io' //IPFS upload/download provider provider
 const ipfsport = ENV.ipfsport || '5001' //IPFS upload/download provider provider
+
+const ipfsLinks = ENV.ipfsLinks
+  ? ENV.ipfsLinks.split(" ")
+  : [
+      "https://ipfs:8080/ipfs/",
+      "http://localhost:8080/ipfs/",
+      "https://ipfs.3speak.tv/ipfs/",
+      "https://infura-ipfs.io/ipfs/",
+      "https://ipfs.alloyxuast.co.uk/ipfs/",
+    ];
+
 const ipfsprotocol = ENV.ipfsprotocol || 'https' //IPFS upload/download protocol
 //node market config > 2500 is 25% inflation to node operators, this is currently not used
 const bidRate = ENV.BIDRATE || 2500 //
 
 //HIVE CONFIGS
-var startURL = ENV.STARTURL || "https://api.deathwing.me/"
-var clientURL = ENV.APIURL || "https://api.deathwing.me/"
-const clients = ENV.clients || [
-    "https://api.deathwing.me/",
-    //"https://api.c0ff33a.uk/",
-    //"https://rpc.ecency.com/",
-    "https://hived.emre.sh/",
-    //"https://rpc.ausbit.dev/",
-    "https://api.hive.blog/"
-]
+var startURL = ENV.STARTURL || "https://hive-api.dlux.io/";
+var clientURL = ENV.APIURL || "https://hive-api.dlux.io/";
+const clients = ENV.clients
+  ? ENV.clients.split(" ")
+  : [
+      "https://api.deathwing.me/",
+      "https://hive-api.dlux.io/",
+      "https://rpc.ecency.com/",
+      "https://hived.emre.sh/",
+      "https://rpc.ausbit.dev/",
+      "https://api.hive.blog/",
+    ];
 
 //!!!!!!! -- THESE ARE COMMUNITY CONSTANTS -- !!!!!!!!!//
 //TOKEN CONFIGS -- ALL COMMUNITY RUNNERS NEED THESE SAME VALUES
@@ -63,7 +82,7 @@ const msPubMemo = 'STM5GNM3jpjWh7Msts5Z37eM9UPfGwTMU7Ksats3RdKeRaP5SveR9' //memo
 const msPriMemo = '5KDZ9fzihXJbiLqUCMU2Z2xU8VKb9hCggyRPZP37aprD2kVKiuL'
 const msmeta = ''
 const mainAPI = 'token.dlux.io' //leaders API probably
-const mainRender = 'dluxdata.herokuapp.com' //data and render server
+const mainRender = 'data.dlux.io' //data and render server
 const mainFE = 'dlux.io' //frontend for content
 const mainIPFS = 'a.ipfs.dlux.io' //IPFS service
 const mainICO = 'robotolux' //Account collecting ICO HIVE
@@ -81,7 +100,6 @@ const features = {
     state: true, //api dumps
     claimdrop: false //claim drops
 }
-
 const featuresModel = {
             claim_id: 'claim',
             claim_S: 'Airdrop',
@@ -150,9 +168,7 @@ const featuresModel = {
           }
 const adverts = [
     'https://camo.githubusercontent.com/954558e3ca2d68e0034cae13663d9807dcce3fcf/68747470733a2f2f697066732e627573792e6f72672f697066732f516d64354b78395548366a666e5a6748724a583339744172474e6b514253376359465032357a3467467132576f50'
-const adverts = [
-    'https://images.hive.blog/0x0/https://camo.githubusercontent.com/954558e3ca2d68e0034cae13663d9807dcce3fcf/68747470733a2f2f697066732e627573792e6f72672f697066732f516d64354b78395548366a666e5a6748724a583339744172474e6b514253376359465032357a3467467132576f50'
-
+]
 const detail = {
                 name: 'Decentralized Limitless User eXperiences',
                 symbol: TOKEN,
@@ -172,12 +188,16 @@ let config = {
     msowner,
     mspublic,
     memoKey,
+    timeoutContinuous,
+    timeoutStart,
     follow,
     NODEDOMAIN,
     hookurl,
     status,
     history,
     dbcs,
+    dbmods,
+    typeDefs,
     mirror,
     bidRate,
     engineCrank,
@@ -194,6 +214,7 @@ let config = {
     ipfshost,
     ipfsprotocol,
     ipfsport,
+    ipfsLinks,
     starting_block,
     prefix,
     leader,
