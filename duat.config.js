@@ -19,32 +19,45 @@ const dbcs = ENV.DATABASE_URL || '';
 const history = ENV.history || 3600
 const stream = ENV.stream || 'irreversible'
 const mode = ENV.mode || 'normal'
+const history = ENV.history || 3600
+const stream = ENV.stream || 'irreversible'
+const timeoutStart = ENV.timeoutStart || 180000;
+const timeoutContinuous = ENV.timeoutContinuous || 30000;
 
 // testing configs for replays
 const override = ENV.override || 0 //69116600 //will use standard restarts after this blocknumber
 const engineCrank = ENV.startingHash || 'QmconUD3faVGbgC2jAXRiueEuLarjfaUiDz5SA74kptuvu' //but this state will be inserted before
 
-// third party configs
-const rta = ENV.rta || '' //rtrades account : IPFS pinning interface
-const rtp = ENV.rtp || '' //rtrades password : IPFS pinning interface
-
 const ipfshost = ENV.ipfshost || 'ipfs.infura.io' //IPFS upload/download provider provider
 const ipfsport = ENV.ipfsport || '5001' //IPFS upload/download provider provider
+
+const ipfsLinks = ENV.ipfsLinks
+  ? ENV.ipfsLinks.split(" ")
+  : [
+      "https://ipfs:8080/ipfs/",
+      "http://localhost:8080/ipfs/",
+      "https://ipfs.3speak.tv/ipfs/",
+      "https://infura-ipfs.io/ipfs/",
+      "https://ipfs.alloyxuast.co.uk/ipfs/",
+    ];
+
 const ipfsprotocol = ENV.ipfsprotocol || 'https' //IPFS upload/download protocol
 //node market config > 2500 is 25% inflation to node operators, this is currently not used
 const bidRate = ENV.BIDRATE || 2500 //
 
 //HIVE CONFIGS
-var startURL = ENV.STARTURL || "https://api.deathwing.me/"
-var clientURL = ENV.APIURL || "https://api.deathwing.me/"
-const clients = ENV.clients || [
-    "https://api.deathwing.me/",
-    //"https://api.c0ff33a.uk/",
-    //"https://rpc.ecency.com/",
-    "https://hived.emre.sh/",
-    //"https://rpc.ausbit.dev/",
-    "https://api.hive.blog/"
-]
+var startURL = ENV.STARTURL || "https://hive-api.dlux.io/";
+var clientURL = ENV.APIURL || "https://hive-api.dlux.io/";
+const clients = ENV.clients
+  ? ENV.clients.split(" ")
+  : [
+      "https://api.deathwing.me/",
+      "https://hive-api.dlux.io/",
+      "https://rpc.ecency.com/",
+      "https://hived.emre.sh/",
+      "https://rpc.ausbit.dev/",
+      "https://api.hive.blog/",
+    ];
 
 //!!!!!!! -- THESE ARE COMMUNITY CONSTANTS -- !!!!!!!!!//
 //TOKEN CONFIGS -- ALL COMMUNITY RUNNERS NEED THESE SAME VALUES
@@ -348,59 +361,64 @@ const detail = {
 
 let config = {
   username,
-  active,
-  msowner,
-  mspublic,
-  memoKey,
-  follow,
-  NODEDOMAIN,
-  hookurl,
-  status,
-  history,
-  dbcs,
-  mirror,
-  bidRate,
-  engineCrank,
-  port,
-  pintoken,
-  pinurl,
-  clientURL,
-  startURL,
-  clients,
-  acm,
-  rta,
-  rtp,
-  override,
-  ipfshost,
-  ipfsprotocol,
-  ipfsport,
-  starting_block,
-  prefix,
-  leader,
-  msaccount,
-  msPubMemo,
-  msPriMemo,
-  msmeta,
-  ben,
-  adverts,
-  delegation,
-  delegationWeight,
-  TOKEN,
-  precision,
-  tag,
-  mainAPI,
-  jsonTokenName,
-  mainFE,
-  mainRender,
-  mainIPFS,
-  mainICO,
-  detail,
-  footer,
-  hive_service_fee,
-  features,
-  stream,
-  mode,
-  featuresModel,
+    active,
+    msowner,
+    mspublic,
+    memoKey,
+    timeoutContinuous,
+    timeoutStart,
+    follow,
+    NODEDOMAIN,
+    hookurl,
+    status,
+    history,
+    dbcs,
+    dbmods,
+    typeDefs,
+    mirror,
+    bidRate,
+    engineCrank,
+    port,
+    pintoken,
+    pinurl,
+    clientURL,
+    startURL,
+    clients,
+    acm,
+    rta,
+    rtp,
+    override,
+    ipfshost,
+    ipfsprotocol,
+    ipfsport,
+    ipfsLinks,
+    starting_block,
+    prefix,
+    leader,
+    msaccount,
+    msPubMemo,
+    msPriMemo,
+    msmeta,
+    ben,
+    adverts,
+    delegation,
+    delegationWeight,
+    TOKEN,
+    precision,
+    tag,
+    mainAPI,
+    jsonTokenName,
+    mainFE,
+    mainRender,
+    mainIPFS,
+    mainICO,
+    detail,
+    footer,
+    hive_service_fee,
+    features,
+    stream,
+    mode,
+    featuresModel
 };
 
 module.exports = config;
