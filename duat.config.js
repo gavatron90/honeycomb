@@ -16,13 +16,12 @@ const pintoken = ENV.pintoken || ''
 const pinurl = ENV.pinurl || '';
 const status = ENV.status || true
 const dbcs = ENV.DATABASE_URL || '';
+const dbmods = ENV.DATABASE_MODS || []; //list of moderators to hide posts in above db
 const history = ENV.history || 3600
 const stream = ENV.stream || 'irreversible'
 const mode = ENV.mode || 'normal'
 const timeoutStart = ENV.timeoutStart || 180000;
 const timeoutContinuous = ENV.timeoutContinuous || 30000;
-const dbcs = ENV.DATABASE_URL || ''; //connection string to a postgres database
-const dbmods = ENV.DATABASE_MODS || []; //list of moderators to hide posts in above db
 
 // testing configs for replays
 const override = ENV.override || 0 //69116600 //will use standard restarts after this blocknumber
