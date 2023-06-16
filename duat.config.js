@@ -387,8 +387,6 @@ let config = {
     startURL,
     clients,
     acm,
-    rta,
-    rtp,
     override,
     ipfshost,
     ipfsprotocol,
