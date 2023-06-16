@@ -79,7 +79,9 @@ Which include Docker and IPFS linking
 `cd honeycomb`
 
 * Set configuration variables
-
+Choose a community and install it's config file
+`cp <token>.config.js config.js`
+Then set your specifics
 `nano .env` or your favorite editor
 
 `account=hiveaccount
