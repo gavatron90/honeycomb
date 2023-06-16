@@ -17,6 +17,9 @@ const pinurl = ENV.pinurl || '';
 const status = ENV.status || true
 const dbcs = ENV.DATABASE_URL || '';
 const dbmods = ENV.DATABASE_MODS || []; //list of moderators to hide posts in above db
+const typeDefs = ENV.APPTYPES || {
+  ["360"]: ['QmNby3SMAAa9hBVHvdkKvvTqs7ssK4nYa2jBdZkxqmRc16'],
+}
 const history = ENV.history || 3600
 const stream = ENV.stream || 'irreversible'
 const mode = ENV.mode || 'normal'
