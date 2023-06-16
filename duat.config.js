@@ -19,8 +19,6 @@ const dbcs = ENV.DATABASE_URL || '';
 const history = ENV.history || 3600
 const stream = ENV.stream || 'irreversible'
 const mode = ENV.mode || 'normal'
-const history = ENV.history || 3600
-const stream = ENV.stream || 'irreversible'
 const timeoutStart = ENV.timeoutStart || 180000;
 const timeoutContinuous = ENV.timeoutContinuous || 30000;
 
