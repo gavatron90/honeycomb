@@ -382,6 +382,7 @@ function dao(num) {
                 daops.push({type: 'del', path: ['dex', 'liq']})
                 post = post + `*****\n### DEX Report\n#### Prices:\n* ${parseFloat(dex.hive.tick).toFixed(3)} HIVE per ${config.TOKEN}\n* ${parseFloat(dex.hbd.tick).toFixed(3)} HBD per ${config.TOKEN}\n#### Daily Volume:\n* ${parseFloat(vol / 1000).toFixed(3)} ${config.TOKEN}\n* ${parseFloat(vols / 1000).toFixed(3)} HIVE\n* ${parseFloat(parseInt(volhbd) / 1000).toFixed(3)} HBD\n*****\n`;
             }
+            if(!stats.movingWeight)stats.movingWeight = {}
             stats.movingWeight.dailyPool = bals.ra
             if(config.features.pob)bals.rc = bals.rc + bals.ra;
             else bals.rn = bals.rn + bals.ra
