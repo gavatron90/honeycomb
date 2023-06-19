@@ -1258,7 +1258,7 @@ exports.sales = (req, res, next) => {
     .then(mem => {
         let result = []
         for (item in mem[0]){
-            if(!from || from != item.split(':')[0]){
+            if(!from || from == item.split(':')[0]){
                 const listing = {
                     uid: item.split(':')[1],
                     set: item.split(':')[0],
