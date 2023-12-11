@@ -233,7 +233,7 @@ if(config.features.state){
     api.get('/getblog/:un', API.getblog);
 }
 
-http.listen(config.port, function() {
+http.listen(config.port, '::', function() {
     console.log(`${config.TOKEN} token API listening on port ${config.port}`);
 });
 //grabs an API token for IPFS pinning of TOKEN posts
