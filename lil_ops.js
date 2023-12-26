@@ -4,8 +4,6 @@ const crypto = require('crypto');
 const bs58 = require('bs58');
 const hashFunction = Buffer.from('12', 'hex');
 const stringify = require('json-stable-stringify');
-const { postToDiscord } = require('./discord');
-const config = require('./config');
 
 const burn = (amount) => {
     return new Promise((resolve, reject) => {

@@ -1,4 +1,8 @@
 require('dotenv').config();
+const { getPathObj, getPathNum } = require('./getPathObj')
+const { store } = require("./index");
+const { chronAssign } = require('./lil_ops')
+
 const ENV = process.env;
 
 const username = ENV.account || 'disregardfiat';
@@ -100,6 +104,11 @@ const features = {
     state: true, //api dumps
     claimdrop: false //claim drops
 }
+
+const CustomJsonProcessing = []
+const CustomOperationsProcessing = []
+const CustomAPI = []
+
 const featuresModel = {
             claim_id: 'claim',
             claim_S: 'Airdrop',
@@ -241,7 +250,10 @@ let config = {
     features,
     stream,
     mode,
-    featuresModel
+    featuresModel,
+    CustomJsonProcessing,
+    CustomOperationsProcessing,
+    CustomAPI
 };
 
 module.exports = config;
