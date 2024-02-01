@@ -57,18 +57,20 @@ exports.store = store;
 const config = require('./config');
 config.startURL = checkAPIs(config.startURL, false)
 config.clientURL = checkAPIs(config.clientURL, true)
+const fetch = require('node-fetch');
+const express = require('express');
+const stringify = require('json-stable-stringify');
+const IPFS = require("ipfs-http-client-lite"); //ipfs-http-client doesn't work
+const hive = require('@hiveio/dhive');
+const cors = require('cors');
+
 Promise.all([config.startURL, config.clientURL]).then(urls => {
   config.startURL = urls[0]
   config.clientURL = urls[1]
   console.log(config.clients, config.startURL, config.clientURL)
   exports.processor = processor;
-  const hive = require('@hiveio/dhive');
   var client = new hive.Client(config.clients);
   exports.client = client
-  const express = require('express');
-  const stringify = require('json-stable-stringify');
-  const IPFS = require("ipfs-http-client-lite"); //ipfs-http-client doesn't work
-  const fetch = require('node-fetch');
   var ipfs = IPFS(
     `${config.ipfsprotocol}://${config.ipfshost}:${config.ipfsport}`
   );
@@ -82,8 +84,6 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
   const statestart = require('./state')
   // var store = new Pathwise(level('./db', { createIfEmpty: true }));
   // exports.store = store;
-
-  const cors = require('cors');
   const { ChainTypes, makeBitMaskFilter, ops } = require('@hiveio/hive-js/lib/auth/serializer');
   const op = ChainTypes.operations
   const walletOperationsBitmask = makeBitMaskFilter([op.custom_json])
@@ -1174,7 +1174,7 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
         }
       });
   }
-})
+
 
 function checkAPIs(url, alter) {
   return new Promise((resolve, reject) => {
@@ -1204,3 +1204,4 @@ function checkAPIs(url, alter) {
       })
   })
 }
+})
