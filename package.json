@@ -36,7 +36,7 @@
         "json-stable-stringify": "^1.0.1",
         "level": "^5.0.1",
         "level-pathwise": "^4.0.1",
-        "node-fetch": "^2.6.7",
+        "node-fetch": "2.6.7",
         "pg": "^8.6.0",
         "request": "^2.88.2",
         "xmlhttprequest": "^1.8.0"
