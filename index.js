@@ -50,6 +50,7 @@ let TXID = {
   },
 }
 exports.TXID = TXID
+const fetch = require('node-fetch');
 var Pathwise = require('./pathwise');
 var level = require('level');
 var store = new Pathwise(level('./db', { createIfEmpty: true }));
@@ -57,7 +58,6 @@ exports.store = store;
 const config = require('./config');
 config.startURL = checkAPIs(config.startURL, false)
 config.clientURL = checkAPIs(config.clientURL, true)
-const fetch = require('node-fetch');
 const express = require('express');
 const stringify = require('json-stable-stringify');
 const IPFS = require("ipfs-http-client-lite"); //ipfs-http-client doesn't work
@@ -1174,7 +1174,7 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
         }
       });
   }
-
+})
 
 function checkAPIs(url, alter) {
   return new Promise((resolve, reject) => {
@@ -1204,4 +1204,3 @@ function checkAPIs(url, alter) {
       })
   })
 }
-})
