@@ -1,5 +1,5 @@
 
-const VERSION = 'v1.4.0'
+const VERSION = 'v1.4.1'
 exports.VERSION = VERSION
 var block = {
   ops: [],

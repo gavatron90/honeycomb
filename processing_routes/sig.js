@@ -4,7 +4,7 @@ const { getPathObj } = require("./../getPathObj");
 const { verify_broadcast, verify_tx_sig } = require("./../tally");
 
 exports.account_update = (json, pc) => {
-    if(json.account == config.msaccount){
+    if(json.account == config.msaccount) {
         store.batch([{type:'del', path:['stats', 'ms']}], [after, pc[1], 'del'])
         function after() {
             var ops = []
@@ -36,8 +36,8 @@ exports.account_update = (json, pc) => {
             ops.push({type:'del', path:['msso']})
             store.batch(ops, pc)
         } 
-    } else if (json.active && Owners.is(json.account)) {
-        Owners.activeUpdate(json.account, json.active.account_auths[0][0]);
+    } else if (json.active && Owners.is(json.account) && json.active.key_auths[0]?.[0]) {
+        Owners.activeUpdate(json.account, json.active.key_auths[0][0]);
         pc[0](pc[2])
     } else {
         pc[0](pc[2])
