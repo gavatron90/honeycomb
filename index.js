@@ -337,8 +337,8 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
       processor.on('nft_mint', HR.nft_mint)
       processor.on('nft_pfp', HR.nft_pfp)
     }
-    for (var i = 0; i < config.CustomProcessing.length; i++) {
-      processor[config.CustomProcessing[i].type](config.CustomProcessing[i].op, config.CustomProcessing[i].func)
+    for (var i = 0; i < config.CustomOperationsProcessing.length; i++) {
+      processor[config.CustomOperationsProcessing[i].type](config.CustomOperationsProcessing[i].op, config.CustomOperationsProcessing[i].func)
     }
     var chronOps = {
       post_vote: function (b, passed, res, rej, num, prand, ints) {
@@ -663,6 +663,7 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
 
                 ipfsSaveState(num, blockState, ipfs)
                   .then(pla => {
+                    console.log({pla})
                     TXID.saveNumber = pla.hashBlock
                     block.root = pla.hashLastIBlock
                     plasma.hashSecIBlock = plasma.hashLastIBlock
@@ -1124,7 +1125,6 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
           .then((r) => r.text())
           .then((res) => {
             if (res.split("")[0] == "<") {
-              console.log("HTML IPFS reply", res);
               catIPFS(hash, i + 1, ipfslinks);
             } else resolve(res);
           })
@@ -1132,7 +1132,6 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
             if (i < arr.length - 1) {
               catIPFS(hash, i + 1, ipfslinks);
             } else {
-              console.log("End of IPFS tries");
               reject(e);
             }
           });

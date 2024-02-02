@@ -38,7 +38,7 @@ const engineCrank = ENV.startingHash || 'QmconUD3faVGbgC2jAXRiueEuLarjfaUiDz5SA7
 const rta = ENV.rta || '' //rtrades account : IPFS pinning interface
 const rtp = ENV.rtp || '' //rtrades password : IPFS pinning interface
 
-const ipfshost = ENV.ipfshost || 'ipfs.infura.io' //IPFS upload/download provider provider
+const ipfshost = ENV.ipfshost || '127.0.0.1' //IPFS upload/download provider provider
 const ipfsport = ENV.ipfsport || '5001' //IPFS upload/download provider provider
 
 const ipfsLinks = ENV.ipfsLinks
@@ -51,7 +51,7 @@ const ipfsLinks = ENV.ipfsLinks
       "https://ipfs.alloyxuast.co.uk/ipfs/",
     ];
 
-const ipfsprotocol = ENV.ipfsprotocol || 'https' //IPFS upload/download protocol
+const ipfsprotocol = ENV.ipfsprotocol || 'http' //IPFS upload/download protocol
 //node market config > 2500 is 25% inflation to node operators, this is currently not used
 const bidRate = ENV.BIDRATE || 2500 //
 
@@ -108,6 +108,7 @@ const features = {
 const CustomJsonProcessing = []
 const CustomOperationsProcessing = []
 const CustomAPI = []
+const CustomChron = []
 
 const featuresModel = {
             claim_id: 'claim',
@@ -253,7 +254,8 @@ let config = {
     featuresModel,
     CustomJsonProcessing,
     CustomOperationsProcessing,
-    CustomAPI
+    CustomAPI,
+    CustomChron
 };
 
 module.exports = config;
