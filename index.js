@@ -1,5 +1,5 @@
 
-const VERSION = 'v1.4.1'
+const VERSION = 'v1.4.2'
 exports.VERSION = VERSION
 var block = {
   ops: [],
@@ -794,7 +794,8 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
         reports: [],
         hash: {},
         start: false,
-        first: config.engineCrank,
+        last: 0,
+        lastHash: "",
       };
       for (i in oa) {
         consensus_init.reports.push(
@@ -805,8 +806,10 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
         console.log(r);
         for (i = 0; i < r.length; i++) {
           if (r[i]) {
-            if (config.engineCrank == consensus_init.first)
-              consensus_init.first = r[i][0];
+            if (r[i][1] > consensus_init.last){
+              consensus_init.last = r[i][1]
+              consensus_init.lastHash = r[i][0]
+            }
             if (consensus_init.hash[r[i][0]]) {
               consensus_init.hash[r[i][0]]++;
             } else {
@@ -823,8 +826,8 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
           }
         }
         if (!consensus_init.start) {
-          console.log("Starting with: ", consensus_init.first);
-          startWith(consensus_init.first, false);
+          console.log("Starting with: ", consensus_init.lastHash);
+          startWith(consensus_init.lastHash, false);
         }
       });
     });
