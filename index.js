@@ -1,5 +1,5 @@
 
-const VERSION = 'v1.4.2'
+const VERSION = 'v1.4.3'
 exports.VERSION = VERSION
 var block = {
   ops: [],
@@ -1117,7 +1117,7 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
 
   function ipfspromise(hash, address = 0) {
     return new Promise((resolve, reject) => {
-      const ipfslinks = config.ipfsLinks;
+      var ipfslinks = config.ipfsLinks;
       if (config.ipfshost != "ipfs" && address == 0)address = 1
       catIPFS(hash, address, ipfslinks);
       setTimeout(() => {

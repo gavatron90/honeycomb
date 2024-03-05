@@ -36,18 +36,16 @@ const engineCrank = ENV.startingHash || 'QmconUD3faVGbgC2jAXRiueEuLarjfaUiDz5SA7
 
 const ipfshost = ENV.ipfshost || '127.0.0.1' //IPFS upload/download provider provider
 const ipfsport = ENV.ipfsport || '5001' //IPFS upload/download provider provider
-
-const ipfsLinks = ENV.ipfsLinks
+const ipfsprotocol = ENV.ipfsprotocol || 'http' //IPFS upload/download protocol
+var ipfsLinks = ENV.ipfsLinks
   ? ENV.ipfsLinks.split(" ")
   : [
-      "https://ipfs:8080/ipfs/",
-      "http://localhost:8080/ipfs/",
+      `${ipfsprotocol}://${ipfshost}:${ipfsport}/ipfs/`,
       "https://ipfs.3speak.tv/ipfs/",
       "https://infura-ipfs.io/ipfs/",
       "https://ipfs.alloyxuast.co.uk/ipfs/",
     ];
 
-const ipfsprotocol = ENV.ipfsprotocol || 'http' //IPFS upload/download protocol
 //node market config > 2500 is 25% inflation to node operators, this is currently not used
 const bidRate = ENV.BIDRATE || 2500 //
 
