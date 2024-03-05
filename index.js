@@ -1129,13 +1129,16 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
           .then((res) => {
             if (res.split("")[0] == "<") {
               catIPFS(hash, i + 1, ipfslinks);
-            } else resolve(res);
+            } else {
+              console.log(arr[i], 'responded')
+              resolve(res);
+            }
           })
           .catch((e) => {
             if (i < arr.length - 1) {
               catIPFS(hash, i + 1, ipfslinks);
             } else {
-              console.log(e)
+              console.log(arr[i], 'failed to respond')
             }
           });
       }
