@@ -1131,7 +1131,6 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
             if (res.split("")[0] == "<") {
               catIPFS(hash, i + 1, ipfslinks);
             } else {
-              console.log(arr[i], 'responded')
               resolve(res);
             }
           })
