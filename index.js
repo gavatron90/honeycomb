@@ -1038,6 +1038,7 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
   function rundelta(arr, ops, sb, pr) {
     return new Promise((resolve, reject) => {
       var promises = [];
+      console.log("IPFS Links:", config.ipfsLinks)
       for (var i = 0; i < arr.length; i++) {
         promises.push(ipfspromise(arr[i].hash));
         plasma.hashBlock = arr[i].hive_block;
