@@ -1118,8 +1118,7 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
 
   function ipfspromise(hash, address = 0) {
     return new Promise((resolve, reject) => {
-      var ipfslinks = config.ipfsLinks;
-      if (config.ipfshost != "ipfs" && address == 0)address = 1
+      var ipfslinks = config.ipfsLinks
       catIPFS(hash, address, ipfslinks);
       setTimeout(() => {
         if(ipfslinks.length >= address + 2)ipfspromise(hash, address + 1).then(x => resolve(x)).catch(e => {})
