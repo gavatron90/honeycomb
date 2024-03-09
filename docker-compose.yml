@@ -9,6 +9,8 @@ services:
       - "127.0.0.1:5001:5001"
     volumes:
       - ipfs:/data/ipfs
+    network:
+      - honeycomb
   honeycomb:
     build: .
     restart: unless-stopped
@@ -29,3 +31,4 @@ volumes:
 
 networks:
   honeycomb:
+    driver: bridge

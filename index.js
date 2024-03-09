@@ -841,7 +841,12 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
       console.log(`Attempting to start from IPFS save state ${hash}`);
       ipfspromise(hash)
         .then((blockInfo) => {
-          var blockinfo = JSON.parse(blockInfo);
+          var blockinfo
+          try {
+            blockinfo = JSON.parse(blockInfo);
+          } catch (e){
+            console.log(e, blockInfo)
+          }
           ipfspromise(blockinfo[1].root ? blockinfo[1].root : hash).then(
             (file) => {
               var data = JSON.parse(file);
