@@ -841,12 +841,7 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
       console.log(`Attempting to start from IPFS save state ${hash}`);
       ipfspromise(hash)
         .then((blockInfo) => {
-          var blockinfo
-          try {
-            blockinfo = JSON.parse(blockInfo);
-          } catch (e){
-            console.log(e, blockInfo)
-          }
+          var blockinfo = JSON.parse(blockInfo);
           ipfspromise(blockinfo[1].root ? blockinfo[1].root : hash).then(
             (file) => {
               var data = JSON.parse(file);
@@ -1134,7 +1129,11 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
           .then((res) => {
             if (res.split("")[0] == "<") {
               catIPFS(hash, i + 1, ipfslinks);
-            } else {
+            } else if (
+              res == "404 page not found"
+            ) {
+              catIPFS(hash, i + 1, ipfslinks);
+            }else {
               resolve(res);
             }
           })
