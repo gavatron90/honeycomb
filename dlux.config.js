@@ -45,6 +45,7 @@ var ipfsLinks = ENV.ipfsLinks
   ? ENV.ipfsLinks.split(" ")
   : [
       `${ipfsprotocol}://${ipfshost}:${ipfsport}/`,
+      "https://ipfs.dlux.io/ipfs/",
       "https://ipfs.3speak.tv/ipfs/",
       "https://infura-ipfs.io/ipfs/",
       "https://ipfs.alloyxuast.co.uk/ipfs/",
