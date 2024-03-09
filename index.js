@@ -1127,14 +1127,11 @@ Promise.all([config.startURL, config.clientURL]).then(urls => {
         fetch(arr[i] + hash)
           .then((r) => r.text())
           .then((res) => {
-            if (res.split("")[0] == "<") {
-              catIPFS(hash, i + 1, ipfslinks);
-            } else if (
-              res == "404 page not found"
-            ) {
-              catIPFS(hash, i + 1, ipfslinks);
-            }else {
+            try {
+              const json = JSON.parse(res);
               resolve(res);
+            } catch (e) {
+              catIPFS(hash, i + 1, ipfslinks);
             }
           })
           .catch((e) => {
