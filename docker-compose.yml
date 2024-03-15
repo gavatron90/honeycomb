@@ -1,4 +1,4 @@
-version: '3'
+version: '2.1'
 services:
   ipfs:
     image: ipfs/kubo:latest
@@ -9,7 +9,7 @@ services:
       - "127.0.0.1:5001:5001"
     volumes:
       - ipfs:/data/ipfs
-    network:
+    networks:
       - honeycomb
   honeycomb:
     build: .
@@ -26,9 +26,10 @@ services:
         max-file: "3"
     stdin_open: true
     tty: true
+    networks:
+      - honeycomb
 volumes:
   ipfs:
 
 networks:
   honeycomb:
-    driver: bridge
