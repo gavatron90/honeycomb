@@ -134,7 +134,7 @@ exports.tally = (num, plasma, isStreaming) => {
                                 for (var owner in stats.ms
                                     .active_account_auths) {
                                     if (
-                                        nodes[owner].report.hash ==
+                                        nodes[owner]?.report.hash ==
                                         tally.agreements.hashes[hash]
                                     ) {
                                         owners++;
